@@ -19,11 +19,11 @@ from dotenv import load_dotenv
 load_dotenv()
 
 COORDINATOR_DATA = {
-    "rahul": {"fullName": "Rahul Kumar", "phone": "+91-9876543210", "email": "2024pgcsca022@nitjsr.ac.in"},
-    "priya": {"fullName": "Priya Brahma", "phone": "+91-9876543211", "email": "2024pgcsca001@nitjsr.ac.in"},
-    "rohit": {"fullName": "Rohit Gangwar", "phone": "+91-9876543212", "email": "2024pgcsca019@nitjsr.ac.in"},
-    "siya": {"fullName": "Siya Agarwal", "phone": "+91-9876543213", "email": "2024pgcsca058@nitjsr.ac.in"},
-    "taher": {"fullName": "Taher Mallik", "phone": "+91-9876543214", "email": "2024pgcsca007@nitjsr.ac.in"}
+    "rahul": {"fullName": "Rahul Kumar", "phone": "+91-7993185567", "email": "2024pgcsca022@nitjsr.ac.in"},
+    "priya": {"fullName": "Priya Brahma", "phone": "+91-9678374608", "email": "2024pgcsca001@nitjsr.ac.in"},
+    "rohit": {"fullName": "Rohit Gangwar", "phone": "+91-8979304759", "email": "2024pgcsca019@nitjsr.ac.in"},
+    "siya": {"fullName": "Siya Agarwal", "phone": "+91-9310120759", "email": "2024pgcsca058@nitjsr.ac.in"},
+    "taher": {"fullName": "Taher Mallik", "phone": "+91-9152760580", "email": "2024pgcsca007@nitjsr.ac.in"}
 }
 
 SCOPES = ['https://www.googleapis.com/auth/gmail.modify', 'https://www.googleapis.com/auth/spreadsheets', 'https://www.googleapis.com/auth/drive']
@@ -42,12 +42,11 @@ def authenticate():
         with open('token.json', 'w') as token:
             token.write(creds.to_json())
     
-    gmail_service = build('gmail', 'v1', credentials=creds)
-    # This authorizes gspread with the same user credentials
+    gmail_service = build('gmail', 'v1', credentials=creds) 
+
     gspread_client = gspread.authorize(creds) 
     return gmail_service, gspread_client
 
-# (The get_or_create_label_id function is correct and does not need changes)
 def get_or_create_label_id(service, parent_label_name, sub_label_name):
     results = service.users().labels().list(userId='me').execute()
     labels = results.get('labels', [])
@@ -73,7 +72,6 @@ def get_or_create_label_id(service, parent_label_name, sub_label_name):
 # Backend
 def process_and_send_emails(sender_email, sheet_url, template_path, attachment_paths):
     try:
-        # --- FIX: Use the single, unified authentication function ---
         gmail_service, gspread_client = authenticate() 
         
         sheet = gspread_client.open_by_url(sheet_url).sheet1
@@ -89,7 +87,7 @@ def process_and_send_emails(sender_email, sheet_url, template_path, attachment_p
         messagebox.showerror("Authentication/Sheet Error", f"An error occurred: {e}")
         return
 
-    # (The rest of the function is correct and does not need changes)
+    
     with open(template_path, 'r', encoding='utf-8') as f:
         html_template = f.read()
 
@@ -139,7 +137,6 @@ def process_and_send_emails(sender_email, sheet_url, template_path, attachment_p
 
     messagebox.showinfo("Success", f"Mail merge complete! Sent {emails_sent_count} emails.")
 
-# (The UI class is correct and does not need changes)
 class MailMergeApp(tk.Tk):
     def __init__(self):
         super().__init__()

@@ -2,7 +2,7 @@
 
 
 a = Analysis(
-    ['app.py '],
+    ['app.py'],
     pathex=[],
     binaries=[],
     datas=[('template.html', '.'), ('credentials.json', '.')],
